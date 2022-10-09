@@ -1,14 +1,13 @@
-import type { GetServerSideProps } from 'next'
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import Card from '../components/Card'
-import axios from 'axios'
-import {HobbiesType} from '../types/hobbies'
-import CardContainer from '../components/CardsContainer'
-import Header from '../components/Header'
+import type { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
+import Card from '../components/Card';
+import axios from 'axios';
+import { HobbiesType } from '../types/hobbies';
+import CardContainer from '../components/CardsContainer';
 
-const Home = ({hobbiesData}: {hobbiesData: HobbiesType}) => {
-  const hobbies = hobbiesData.data.map((i) => i.attributes);
+const Home = ({ hobbiesData }: { hobbiesData: HobbiesType }) => {
+  const hobbies = hobbiesData.data.map(i => i.attributes);
   return (
     <div className={styles.container}>
       <Head>
@@ -17,29 +16,23 @@ const Home = ({hobbiesData}: {hobbiesData: HobbiesType}) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CardContainer>
-        {
-          hobbies.map((a: any, idx: number) => (
-            <Card
-              title={a.name}
-              description={a.description}
-              key={idx} />
-            ) 
-          )
-        }
-    </CardContainer>
+        {hobbies.map((a: any, idx: number) => (
+          <Card title={a.name} description={a.description} key={idx} />
+        ))}
+      </CardContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const hobbiesData =  await axios.get(`${process.env.STRAPI_API_URL}/api/hobbies`).then((response) => 
-   response.data
-  )
+  const hobbiesData = await axios
+    .get(`${process.env.STRAPI_API_URL}/api/hobbies`)
+    .then(response => response.data);
   return {
     props: {
       hobbiesData
     }
   };
-}
+};
